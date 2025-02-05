@@ -16,7 +16,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// キー入力を受け取る
-		memcpy(preKeys, keys, 256);
+		//memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
 
 		//更新処理
