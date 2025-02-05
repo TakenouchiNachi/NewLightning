@@ -8,6 +8,5 @@ public:
 	int test;
 
 	//ここにVPVMatrixを持たせる
-	//Input関連もできればここに持たせたい
 };
 
