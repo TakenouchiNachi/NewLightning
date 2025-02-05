@@ -2,7 +2,6 @@
 #include"InputManager.h"
 
 class CommonData;
-
 class Scene
 {
 protected:
@@ -30,7 +29,7 @@ public:
 
 protected:
 	template<typename T>
-	Scene* makeScene() {};
+	Scene* makeScene();
 };
 
 
