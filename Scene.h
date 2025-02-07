@@ -15,7 +15,6 @@ public:
 	//コピー禁止
 	Scene& operator=(const Scene&) = delete;
 
-
 	//仮想関数化したデストラクタ
 	virtual ~Scene() = default;
 
@@ -30,8 +29,6 @@ public:
 protected:
 	template<typename T>
 	Scene* makeScene() {};
-
-	int var;
 };
 
 class TitleScene : public Scene
