@@ -1,7 +1,9 @@
 #pragma once
-class InputManager
-{
-	KEY* key;
+class InputManager{
+public:
+	InputManager();
+public:
+	KEY* Key;
 };
 
 class KEY {

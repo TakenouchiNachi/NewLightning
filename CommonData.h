@@ -5,8 +5,5 @@ public:
 	CommonData() {};
 
 public:
-	int test;
-
 	//ここにVPVMatrixを持たせる
 };
-

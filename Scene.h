@@ -29,6 +29,10 @@ public:
 protected:
 	template<typename T>
 	Scene* makeScene() {};
+
+public:
+	//入力関係
+	InputManager device;
 };
 
 class TitleScene : public Scene

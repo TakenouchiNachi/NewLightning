@@ -19,6 +19,9 @@ Scene* SceneManager::Update() {
 	Novice::BeginFrame();
 	//現在シーンの更新処理関数を呼び出す
 	Scene* p = mScene->Update();
+	//キー入力を受け取る
+	memcpy(device.Key->preKeys, device.Key->keys, 256);
+	Novice::GetHitKeyStateAll(device.Key->keys);
 	//シーンが切り替わったら遷移先シーンのアドレス更新+前シーンのdelete
 	if (p != mScene) {
 		delete mScene;
