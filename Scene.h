@@ -10,11 +10,11 @@ protected:
 		commonData(commonData)
 	{}
 public:
-
 	//コピー禁止
 	Scene(const Scene&) = delete;
 	//コピー禁止
 	Scene& operator=(const Scene&) = delete;
+
 
 	//仮想関数化したデストラクタ
 	virtual ~Scene() = default;
@@ -29,19 +29,19 @@ public:
 
 protected:
 	template<typename T>
-	Scene* makeScene();
-};
+	Scene* makeScene() {};
 
+	int var;
+};
 
 class TitleScene : public Scene
 {
 public:
-	TitleScene();
+	TitleScene(CommonData* const commonData);
 	virtual~TitleScene();
 	Scene* Update() override;
 	void Draw() const override;
 };
-
 
 class GameScene : public Scene
 {
@@ -50,7 +50,6 @@ public:
 	Scene* Update() override;
 	void Draw() const override;
 };
-
 
 class ResultScene : public Scene
 {

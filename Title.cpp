@@ -1,7 +1,7 @@
 #include"Scene.h"
 
-TitleScene::TitleScene() {
-
+TitleScene::TitleScene(CommonData* const commonData) : Scene(commonData) {
+	
 }
 
 TitleScene::~TitleScene() {
