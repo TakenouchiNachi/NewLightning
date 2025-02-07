@@ -51,12 +51,11 @@ void Camera::CameraUpdate() {
 }
 
 
-Matrix3x3 Camera::MakeVPVMatrix(Matrix3x3 M,Vector2 origin) {
+Matrix3x3 Camera::GetVPVMatrix() {
 
 	Matrix3x3 viewMatrix = Inverse(camera);
-
-	O.orthoMatrix = MakeOrthoMatrix();
-	view.viewportMatrix = MakeViewportMatrix();
+	O.orthoMatrix = GetOrthoMatrix();
+	view.viewportMatrix = GetViewportMatrix();
 
 	Matrix3x3 wvpVpMatrix = Multiply(M, camera);
 	wvpVpMatrix = Multiply(wvpVpMatrix, O.orthoMatrix);
@@ -66,7 +65,7 @@ Matrix3x3 Camera::MakeVPVMatrix(Matrix3x3 M,Vector2 origin) {
 	return  wvpVpMatrix;
 }
 
-Matrix3x3 Camera::MakeOrthoMatrix() {
+Matrix3x3 Camera::GetOrthoMatrix() {
 	return{
 		2.0f / (O.Right - O.Left),  0,  0,
 		0,  2.0f / (O.Top - O.Bottom),  0,
@@ -74,7 +73,7 @@ Matrix3x3 Camera::MakeOrthoMatrix() {
 	};
 }
 
-Matrix3x3 Camera::MakeViewportMatrix() {
+Matrix3x3 Camera::GetViewportMatrix() {
 	return{
 	   view.Width / 2,  0,  0,
 	   0,  -(view.Height / 2),  0,

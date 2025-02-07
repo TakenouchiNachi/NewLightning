@@ -108,6 +108,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseClass.cpp" />
     <ClCompile Include="CommonData.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -122,6 +123,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DirectXGame\3d\Camera.h" />
+    <ClInclude Include="BaseClass.h" />
     <ClInclude Include="CommonData.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Scene.h" />

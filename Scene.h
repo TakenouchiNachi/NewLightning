@@ -1,5 +1,6 @@
 #pragma once
 #include"InputManager.h"
+#include"structuer.h"
 
 class CommonData;
 class Scene
@@ -33,6 +34,8 @@ protected:
 public:
 	//入力関係
 	InputManager device;
+	//VPVMartix
+	Matrix3x3 VPVMatrix =
 };
 
 class TitleScene : public Scene

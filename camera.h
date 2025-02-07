@@ -41,14 +41,10 @@ private:
 	};
 	Viewport view;
 
-
 	Matrix3x3 camera;
 	Vector2 CameraPos;
 
 public:
-
-
-
 	//カメラ関連の初期化関数
 	void CameraInitialize();
 
@@ -56,12 +52,8 @@ public:
 	void CameraUpdate();
 
 	//レンダリングパイプライン(返り値がvpvMatrix)
-	Matrix3x3 MakeVPVMatrix(Matrix3x3 M, Vector2 origin);
-
-	Matrix3x3 MakeOrthoMatrix();
-
-	Matrix3x3 MakeViewportMatrix();
-
-
+	Matrix3x3 GetVPVMatrix();
+	Matrix3x3 GetOrthoMatrix();
+	Matrix3x3 GetViewportMatrix();
 };
 

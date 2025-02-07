@@ -1,10 +1,12 @@
 #pragma once
+#include <iostream>
+#include <cmath>
 
 /*======================================
 				Vector
  ======================================*/
 
-class Vector2 {
+struct Vector2 {
 public:
 	float x;
 	float y;
@@ -12,20 +14,107 @@ public:
 	Vector2 NormalizeVector();
 };
 
-class IntVector2 {
-public:
-	int x;
-	int y;
+struct Vector3 {
 
-	IntVector2 NormalizeIntVector();
+    float x, y, z;
+
+    // コンストラクタ
+    Vector3() : x(0), y(0), z(0) {}
+    Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
+
+    // ベクトル加算
+    Vector3 operator+(const Vector3& other) const {
+        return Vector3(x + other.x, y + other.y, z + other.z);
+    }
+
+    // ベクトル減算
+    Vector3 operator-(const Vector3& other) const {
+        return Vector3(x - other.x, y - other.y, z - other.z);
+    }
+
+    // スカラー乗算
+    Vector3 operator*(float scalar) const {
+        return Vector3(x * scalar, y * scalar, z * scalar);
+    }
+
+    // 内積（Dot Product）
+    float Dot(const Vector3& other) const {
+        return x * other.x + y * other.y + z * other.z;
+    }
+
+    // 外積（Cross Product）
+    Vector3 Cross(const Vector3& other) const {
+        return Vector3(
+            y * other.z - z * other.y,
+            z * other.x - x * other.z,
+            x * other.y - y * other.x
+        );
+    }
+
+    // ベクトルの長さ
+    float Length() const {
+        return std::sqrt(x * x + y * y + z * z);
+    }
+
+    // 正規化（Normalize）
+    Vector3 Normalize() const {
+        float length = Length();
+        return (length > 0) ? (*this) * (1.0f / length) : Vector3(0, 0, 0);
+    }
+
+    // ベクトルの表示
+    void Print() const {
+        std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
+    }
 };
 
 /*======================================
 				Matrix
  ======================================*/
-class Matrix3x3 {
+struct  Matrix3x3 {
 public:
 	float m[3][3];
+};
+
+struct  Matrix4x4 {
+public:
+    float m[4][4];
+};
+
+/*======================================
+                Quaternion
+ ======================================*/
+struct Quaternion {
+    float w, x, y, z;
+
+    Quaternion() : w(1), x(0), y(0), z(0) {}
+    Quaternion(float w, float x, float y, float z) : w(w), x(x), y(y), z(z) {}
+
+    // クォータニオンの掛け算（回転の合成）
+    Quaternion operator*(const Quaternion& q) const {
+        return Quaternion(
+            w * q.w - x * q.x - y * q.y - z * q.z,
+            w * q.x + x * q.w + y * q.z - z * q.y,
+            w * q.y - x * q.z + y * q.w + z * q.x,
+            w * q.z + x * q.y - y * q.x + z * q.w
+        );
+    }
+
+    // クォータニオンの正規化
+    Quaternion Normalize() {
+        float mag = sqrt(w * w + x * x + y * y + z * z);
+        return Quaternion(w / mag, x / mag, y / mag, z / mag);
+    }
+
+    // クォータニオンの共役（逆回転用）
+    Quaternion Conjugate() const {
+        return Quaternion(w, -x, -y, -z);
+    }
+
+    // クォータニオンの表示
+    void Print() const {
+        std::cout << "Quaternion(" << w << ", " << x << ", " << y << ", " << z << ")" << std::endl;
+    }
 };
 
 /*======================================
