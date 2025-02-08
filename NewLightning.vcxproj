@@ -111,12 +111,12 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="BaseClass.cpp" />
     <ClCompile Include="CommonData.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="common.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="structuer.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -126,6 +126,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="BaseClass.h" />
     <ClInclude Include="CommonData.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h" />
@@ -156,7 +157,6 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="camera.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="define.h" />
-    <ClInclude Include="Object.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="structuer.h" />
   </ItemGroup>

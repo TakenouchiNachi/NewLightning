@@ -23,49 +23,29 @@ struct Vector3 {
     Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 
     // ベクトル加算
-    Vector3 operator+(const Vector3& other) const {
-        return Vector3(x + other.x, y + other.y, z + other.z);
-    }
-
+    Vector3 operator+(const Vector3& other) const;
+    // ベクトル同士の加算代入
+    Vector3& operator+=(const Vector3& other);
     // ベクトル減算
-    Vector3 operator-(const Vector3& other) const {
-        return Vector3(x - other.x, y - other.y, z - other.z);
-    }
-
+    Vector3 operator-(const Vector3& other) const;
+    // ベクトル同士の減算代入
+    Vector3& operator+=(const Vector3& other);
     // スカラー乗算
-    Vector3 operator*(float scalar) const {
-        return Vector3(x * scalar, y * scalar, z * scalar);
-    }
-
+    Vector3 operator*(float scalar) const;
+    // ベクトルとスカラーの乗算代入
+    Vector3& operator*=(float scalar);
+    // スカラー除算
+    Vector3 operator/(float scalar) const;
+    // ベクトルとスカラーの除算代入
+    Vector3& operator*=(float scalar);
     // 内積（Dot Product）
-    float Dot(const Vector3& other) const {
-        return x * other.x + y * other.y + z * other.z;
-    }
-
+    float Dot(const Vector3& other) const;
     // 外積（Cross Product）
-    Vector3 Cross(const Vector3& other) const {
-        return Vector3(
-            y * other.z - z * other.y,
-            z * other.x - x * other.z,
-            x * other.y - y * other.x
-        );
-    }
-
+    Vector3 Cross(const Vector3& other) const;
     // ベクトルの長さ
-    float Length() const {
-        return std::sqrt(x * x + y * y + z * z);
-    }
-
+    float Length() const;
     // 正規化（Normalize）
-    Vector3 Normalize() const {
-        float length = Length();
-        return (length > 0) ? (*this) * (1.0f / length) : Vector3(0, 0, 0);
-    }
-
-    // ベクトルの表示
-    void Print() const {
-        std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
-    }
+    Vector3 Normalize() const;
 };
 
 /*======================================
@@ -89,6 +69,10 @@ struct Quaternion {
 
     Quaternion() : w(1), x(0), y(0), z(0) {}
     Quaternion(float w, float x, float y, float z) : w(w), x(x), y(y), z(z) {}
+
+    static Quaternion Identity() {
+        return Quaternion(1, 0, 0, 0);
+    }
 
     // クォータニオンの掛け算（回転の合成）
     Quaternion operator*(const Quaternion& q) const {
