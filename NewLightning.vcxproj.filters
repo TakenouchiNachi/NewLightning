@@ -23,9 +23,6 @@
     <ClCompile Include="structuer.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
@@ -48,6 +45,9 @@
       <Filter>KamataEngine</Filter>
     </ClCompile>
     <ClCompile Include="BaseClass.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,7 +134,6 @@
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
     <ClInclude Include="structuer.h" />
-    <ClInclude Include="Object.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="define.h" />
@@ -143,5 +142,6 @@
     <ClInclude Include="CommonData.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="BaseClass.h" />
+    <ClInclude Include="ResourceManager.h" />
   </ItemGroup>
 </Project>
