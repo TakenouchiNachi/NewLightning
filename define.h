@@ -13,7 +13,7 @@ const int WorldHeight = BlockSize * VerBlockNum;
 const int WorldWidth = BlockSize * HolBlockNum;
 
 //pai
-
+const float PI = 3.14159265358979323846f;
 
 //==============================
 //     ウィンドウサイズ

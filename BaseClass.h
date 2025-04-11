@@ -18,6 +18,9 @@ public:
 	Vector3 scale;
 	Quaternion rotation;
 
+	//オイラー角からクォータニオンを生成する関数
+	void SetRotationEuler(const Vector3& euler);
+
 	Transform(): pos(0, 0, 0), rotation(Quaternion::Identity()), scale(1, 1, 1) {} 
 	Matrix4x4 GetAffineMatrix() const;
 };

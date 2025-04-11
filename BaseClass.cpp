@@ -1,5 +1,21 @@
 #include "BaseClass.h"
+#include"define.h"
 #include<Novice.h>
+
+//==============================================================================================
+void Transform::SetRotationEuler(const Vector3& euler)
+{
+	//オイラー角をラジアンに変換
+	float radX = euler.x * (PI / 180.0f);
+	float radY = euler.y * (PI / 180.0f);
+	float radZ = euler.z * (PI / 180.0f);
+	//クォータニオンの計算
+	Quaternion qX(cos(radX / 2), sin(radX / 2), 0, 0);
+	Quaternion qY(cos(radY / 2), 0, sin(radY / 2), 0);
+	Quaternion qZ(cos(radZ / 2), 0, 0, sin(radZ / 2));
+	//クォータニオンの合成
+	rotation = qX * qY * qZ;
+}
 //==============================================================================================
 Matrix4x4 Transform::GetAffineMatrix() const {
 	Matrix4x4 rotMat = rotation.GetRotateMatrix();
