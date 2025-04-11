@@ -1,82 +1,47 @@
-
 //ソースファイルの読み込み
 #include <Novice.h>
+#include <cmath>
 
 //ヘッダーファイルの読み込み（アルファベット順）
-#include"common.h"
 #include"camera.h"
-#include"structuer.h"
-#include"Object.h"
 
-//カメラ関連の初期化関数
-void Camera::CameraInitialize() {
+Matrix4x4 Camera::GetViewMatrix() const {
+    Matrix4x4 rotationMatrix = rotation.GetRotateMatrix(); // 🔹 `Quaternion` を行列に変換
+    Matrix4x4 translationMatrix;
+    Matrix4x4 ret;
 
-	CameraPos = { -640,-360 };
+    translationMatrix.m[0][3] = -pos.x;
+    translationMatrix.m[1][3] = -pos.y;
+    translationMatrix.m[2][3] = -pos.z;
 
-	camera = {
-		1,0,0,
-		0,1,0,
-		CameraPos.x,CameraPos.y,1
-	};
+    ret = rotationMatrix * translationMatrix;
+    ret.Invert(ret);
 
-	O.InitialLeft = -640.0f;
-	O.InitialTop = 360.0f;
-	O.InitialRight = 640.0f;
-	O.InitialBottom = -360.0f;
-
-	O.Scale = 1.0f;
-
-
-
-	view.Left = 0.0f;
-	view.Top = 0.0f;
-	view.Width = 1280.0f;
-	view.Height = 720.0f;
+    return ret;
 }
 
+Matrix4x4 Camera::GetProjectionMatrix(float screenWidth, float screenHeight) const {
+    Matrix4x4 proj;
+    if (isOrthographic) {
+        float left = -screenWidth / 2.0f, right = screenWidth / 2.0f;
+        float bottom = -screenHeight / 2.0f, top = screenHeight / 2.0f;
 
-//カメラの拡縮
-void Camera::CameraUpdate() {
+        proj.m[0][0] = 2.0f / (right - left);
+        proj.m[1][1] = 2.0f / (top - bottom);
+        proj.m[2][2] = -2.0f / (farPlane - nearPlane);
+        proj.m[3][3] = 1.0f;
+    }
+    else {
+        float fov = 90.0f * (3.1415f / 180.0f); // 90度をラジアンに変換
+        float tanHalfFov = std::tan(fov / 2.0f);
+        float range = nearPlane - farPlane;
 
-	camera = {
-		1,0,0,
-		0,1,0,
-		CameraPos.x,CameraPos.y,1
-	};
-
-	O.Left = O.InitialLeft * O.Scale;
-	O.Top = O.InitialTop * O.Scale;
-	O.Right = O.InitialRight * O.Scale;
-	O.Bottom = O.InitialBottom * O.Scale;
-}
-
-
-Matrix3x3 Camera::GetVPVMatrix() {
-
-	Matrix3x3 viewMatrix = Inverse(camera);
-	O.orthoMatrix = GetOrthoMatrix();
-	view.viewportMatrix = GetViewportMatrix();
-
-	Matrix3x3 wvpVpMatrix = Multiply(M, camera);
-	wvpVpMatrix = Multiply(wvpVpMatrix, O.orthoMatrix);
-	wvpVpMatrix = Multiply(wvpVpMatrix, view.viewportMatrix);
-
-	//描画用の四つ角
-	return  wvpVpMatrix;
-}
-
-Matrix3x3 Camera::GetOrthoMatrix() {
-	return{
-		2.0f / (O.Right - O.Left),  0,  0,
-		0,  2.0f / (O.Top - O.Bottom),  0,
-		(O.Left + O.Right) / (O.Left - O.Right),  (O.Top + O.Bottom) / (O.Bottom - O.Top),  1
-	};
-}
-
-Matrix3x3 Camera::GetViewportMatrix() {
-	return{
-	   view.Width / 2,  0,  0,
-	   0,  -(view.Height / 2),  0,
-	   view.Left + (view.Width / 2),  view.Top + (view.Height / 2),  1
-	};
+        proj.m[0][0] = 1.0f / (aspectRatio * tanHalfFov);
+        proj.m[1][1] = 1.0f / tanHalfFov;
+        proj.m[2][2] = (-nearPlane - farPlane) / range;
+        proj.m[2][3] = 2.0f * farPlane * nearPlane / range;
+        proj.m[3][2] = 1.0f;
+        proj.m[3][3] = 0.0f;
+    }
+    return proj;
 }

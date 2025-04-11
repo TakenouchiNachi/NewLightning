@@ -1,14 +1,14 @@
 #include<Novice.h>
-
 #include "SceneManager.h"
-#include"CommonData.h"
 
 class titleScene;
-
-SceneManager::SceneManager():
+SceneManager::SceneManager() :
 	Scene(new CommonData()),
-	mScene(makeScene<TitleScene>())
-{}
+	mScene(makeScene<TitleScene>()){
+	renderer = new RenderPipeline();
+}
+
+
 
 SceneManager::~SceneManager() {
 	if (mScene != nullptr) { delete mScene; };
@@ -17,22 +17,21 @@ SceneManager::~SceneManager() {
 Scene* SceneManager::Update() {
 	// フレームの開始
 	Novice::BeginFrame();
-	//現在シーンの更新処理関数を呼び出す
-	Scene* p = mScene->Update();
 	//キー入力を受け取る
 	memcpy(device.Key->preKeys, device.Key->keys, 256);
 	Novice::GetHitKeyStateAll(device.Key->keys);
+	//現在シーンの更新処理関数を呼び出す
+	Scene* p = mScene->Update();
 	//シーンが切り替わったら遷移先シーンのアドレス更新+前シーンのdelete
 	if (p != mScene) {
 		delete mScene;
 		mScene = p;
 	}
-	//戻り値は特に関係ないのでnullptrを返す（継承の関係上、戻り値が必要）
-	return nullptr;
+	return this;
 }
 
-void SceneManager::Draw() const{
-	mScene->Draw();
+void SceneManager::Render(RenderPipeline& render) const{
+	mScene->Render(render);
 	// フレームの終了
 	Novice::EndFrame();
 }

@@ -2,58 +2,29 @@
 
 //ソースファイルの読み込み
 #include <Novice.h>
+#include <cmath>
 
 //ヘッダーファイルの読み込み（アルファベット順）
 #include"define.h"
+#include"BaseClass.h"
 #include"structuer.h"
 
-
-class Camera {
-private:
-
-	struct Ortho {
-		//初期の描画範囲
-		float InitialRight;
-		float InitialLeft;
-		float InitialTop;
-		float InitialBottom;
-
-		//拡縮後の描画範囲
-		float Right;
-		float Left;
-		float Top;
-		float Bottom;
-
-		Matrix3x3 orthoMatrix;
-
-		//ズームイン・ズームアウト用の拡大率を格納する変数
-		float Scale;
-	};
-	Ortho O;
-
-	struct Viewport {
-		float Width;
-		float Height;
-		float Left;
-		float Top;
-
-		Matrix3x3 viewportMatrix;
-	};
-	Viewport view;
-
-	Matrix3x3 camera;
-	Vector2 CameraPos;
+class Camera : public Transform{
+public:
+	float zoom;					//2Dカメラのズーム
+	int isOrthographic;			//2D or 3D(2Dならture 3Dならfalse)
+	float aspectRatio;			//アスペクト比
+	float nearPlane, farPlane;	//クリップ面
 
 public:
-	//カメラ関連の初期化関数
-	void CameraInitialize();
+	//コンストラクタ
+	Camera()
+		:zoom(1.0f), isOrthographic(true), aspectRatio(16.0f / 9.0f), nearPlane(0.1f), farPlane(100.0f){
+	}
 
-	//カメラの拡縮
-	void CameraUpdate();
-
-	//レンダリングパイプライン(返り値がvpvMatrix)
-	Matrix3x3 GetVPVMatrix();
-	Matrix3x3 GetOrthoMatrix();
-	Matrix3x3 GetViewportMatrix();
+    // ビュー行列を取得（カメラの位置と回転を考慮）
+	Matrix4x4 GetViewMatrix() const;
+    // 射影行列（正射影 or 透視投影）
+	Matrix4x4 GetProjectionMatrix(float screenWidth, float screenHeight) const;
 };
 

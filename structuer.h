@@ -11,6 +11,10 @@ public:
 	float x;
 	float y;
 
+    //コンストラクタ
+	Vector2() : x(0), y(0) {}
+    Vector2(float x, float y) : x(x), y(y) {}
+
 	Vector2 NormalizeVector();
 };
 
@@ -29,7 +33,7 @@ struct Vector3 {
     // ベクトル減算
     Vector3 operator-(const Vector3& other) const;
     // ベクトル同士の減算代入
-    Vector3& operator+=(const Vector3& other);
+    Vector3& operator-=(const Vector3& other);
     // スカラー乗算
     Vector3 operator*(float scalar) const;
     // ベクトルとスカラーの乗算代入
@@ -37,7 +41,7 @@ struct Vector3 {
     // スカラー除算
     Vector3 operator/(float scalar) const;
     // ベクトルとスカラーの除算代入
-    Vector3& operator*=(float scalar);
+    Vector3& operator/=(float scalar);
     // 内積（Dot Product）
     float Dot(const Vector3& other) const;
     // 外積（Cross Product）
@@ -47,6 +51,14 @@ struct Vector3 {
     // 正規化（Normalize）
     Vector3 Normalize() const;
 };
+
+struct Vector4 {
+    float x, y, z, w;
+
+    //コンストラクタ
+    Vector4(float x_, float y_, float z_, float w_) : x(x_), y(y_), z(z_), w(w_) {}
+    Vector4(const Vector3& v, float w_) : x(v.x), y(v.y), z(v.z), w(w_) {}
+    };
 
 /*======================================
 				Matrix
@@ -59,6 +71,28 @@ public:
 struct  Matrix4x4 {
 public:
     float m[4][4];
+
+    // コンストラクタ
+    //Matrix4x4();
+
+    //行列同士の乗算
+    Matrix4x4 operator*(const Matrix4x4& other) const;
+    //Matrix4x4とVector3の乗算
+    Vector3 operator*(const Vector3& vec) const;
+    // 3×3 の小行列を取得
+    void GetMinorMatrix(int row, int col, float minor[3][3]) const;
+    // 3×3 の行列式を求める
+    float Determinant3x3(float mat[3][3]) const;
+    // Cofactor（余因子）を求める
+    float Cofactor(int row, int col) const;
+    // 行列の行列式を求める（4×4 の行列式）
+    float Determinant() const;
+    // 逆行列を求める
+    void Invert(Matrix4x4& out) const;
+
+    // `Matrix4x4 * Vector4` のオーバーロード
+    Vector4 operator*(const Vector4& v) const;
+
 };
 
 /*======================================
@@ -67,38 +101,25 @@ public:
 struct Quaternion {
     float w, x, y, z;
 
-    Quaternion() : w(1), x(0), y(0), z(0) {}
-    Quaternion(float w, float x, float y, float z) : w(w), x(x), y(y), z(z) {}
-
     static Quaternion Identity() {
-        return Quaternion(1, 0, 0, 0);
+        Quaternion ret;
+
+        ret.w = 1;
+        ret.x = 0;
+        ret.y = 0;
+        ret.z = 0;
+        
+        return ret;
     }
 
     // クォータニオンの掛け算（回転の合成）
-    Quaternion operator*(const Quaternion& q) const {
-        return Quaternion(
-            w * q.w - x * q.x - y * q.y - z * q.z,
-            w * q.x + x * q.w + y * q.z - z * q.y,
-            w * q.y - x * q.z + y * q.w + z * q.x,
-            w * q.z + x * q.y - y * q.x + z * q.w
-        );
-    }
-
+    Quaternion operator*(const Quaternion& q) const;
     // クォータニオンの正規化
-    Quaternion Normalize() {
-        float mag = sqrt(w * w + x * x + y * y + z * z);
-        return Quaternion(w / mag, x / mag, y / mag, z / mag);
-    }
-
+    Quaternion Normalize();
     // クォータニオンの共役（逆回転用）
-    Quaternion Conjugate() const {
-        return Quaternion(w, -x, -y, -z);
-    }
-
-    // クォータニオンの表示
-    void Print() const {
-        std::cout << "Quaternion(" << w << ", " << x << ", " << y << ", " << z << ")" << std::endl;
-    }
+    Quaternion Conjugate() const;
+    //回転行列の作成
+    Matrix4x4 GetRotateMatrix() const;
 };
 
 /*======================================
@@ -106,15 +127,12 @@ struct Quaternion {
  ======================================*/
 class ColorStruct {
 public:
-	int Red;
-	int Green;
-	int Blue;
-	int alpha;
-
-	//上記四つをまとめたもの
-	int color;
-
-	void SetColor() {
-		color = 0x01000000 * Red + 0x00010000 * Green + 0x00000100 * Blue + 0x00000001 * alpha;
-	}
+    //三原色＋α
+    Vector4 RGBA;
+    //上記四つをまとめたもの
+    int color;
+public:
+    //コンストラクタ
+    ColorStruct(Vector4 rgba) : RGBA(rgba), color(0) {}
+    void SetColor();
 };

@@ -1,9 +1,11 @@
 #pragma once
+#include"camera.h"
+#include"RenderPipeline.h"
 
-class CommonData
-{
+class CommonData{
 public:
-	CommonData() {};
+	CommonData();
 
 public:
+
 };

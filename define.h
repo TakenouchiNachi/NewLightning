@@ -12,6 +12,9 @@ const int HolBlockNum = 50;
 const int WorldHeight = BlockSize * VerBlockNum;
 const int WorldWidth = BlockSize * HolBlockNum;
 
+//pai
+
+
 //==============================
 //     ウィンドウサイズ
 //==============================

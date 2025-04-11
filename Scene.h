@@ -1,15 +1,18 @@
 #pragma once
 #include"InputManager.h"
 #include"structuer.h"
+#include"RenderPipeline.h"
+#include"Player.h"
+
 
 class CommonData;
-class Scene
-{
+class Scene{
 protected:
 	//コンストラクタ
 	Scene(CommonData* const commonData) :
-		commonData(commonData)
-	{}
+		commonData(commonData){
+		camera = new Camera();
+	}
 public:
 	//コピー禁止
 	Scene(const Scene&) = delete;
@@ -22,20 +25,19 @@ public:
 protected:
 	//共有データ
 	CommonData* const commonData;
-
+	//Camera(各シーンに一つ持たせる)
+	Camera* camera;
 public:
 	virtual Scene* Update() = 0;
-	virtual void Draw() const = 0;
+	virtual void Render(RenderPipeline& renderer) const = 0;
 
 protected:
 	template<typename T>
-	Scene* makeScene() {};
+	Scene* makeScene();
 
 public:
 	//入力関係
 	InputManager device;
-	//VPVMartix
-	Matrix3x3 VPVMatrix =
 };
 
 class TitleScene : public Scene
@@ -44,21 +46,26 @@ public:
 	TitleScene(CommonData* const commonData);
 	virtual~TitleScene();
 	Scene* Update() override;
-	void Draw() const override;
+	void Render(RenderPipeline& renderer) const override;
 };
 
 class GameScene : public Scene
 {
 public:
-	GameScene();
+	GameScene(CommonData* const commonData);
+	virtual~GameScene();
 	Scene* Update() override;
-	void Draw() const override;
+	void Render(RenderPipeline& renderer) const override;
+
+private:
+	Player* player;
 };
 
 class ResultScene : public Scene
 {
 public:
-	ResultScene();
+	ResultScene(CommonData* const commonData);
+	virtual~ResultScene();
 	Scene* Update() override;
-	void Draw() const override;
+	void Render(RenderPipeline& renderer) const override;
 };
